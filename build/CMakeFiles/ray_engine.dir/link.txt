@@ -1,0 +1,3 @@
+A:\msys64\ucrt64\bin\cmake.exe -E rm -f CMakeFiles\ray_engine.dir/objects.a
+A:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\ray_engine.dir/objects.a @CMakeFiles\ray_engine.dir\objects1.rsp
+A:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\ray_engine.dir/objects.a -Wl,--no-whole-archive -o ray_engine.exe -Wl,--out-implib,libray_engine.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ray_engine.dir\linkLibs.rsp
