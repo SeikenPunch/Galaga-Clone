@@ -63,8 +63,9 @@ bool Entity::isDead(){
 }
 
 void Entity::updateColShape(){
-	colShape.width = texture.width;
-	colShape.height = texture.height;
+
+	colShape.width = texture.width * SPRITE_SCALE;
+	colShape.height = texture.height * SPRITE_SCALE;
 	colShape.originPosition.x = position.x + (texture.width / 2.f);
 	colShape.originPosition.y = position.y + (texture.height / 2.f);
 }

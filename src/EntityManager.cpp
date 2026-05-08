@@ -8,24 +8,73 @@ void EntityManager::addEntity(std::unique_ptr<Entity> entity){
 }
 
 void EntityManager::update(){
-	// Probably add player to EntityManager so that EM class has higher cohesion
-	// Add a player component to EM class. Then create bullet vector in EM class as well
-	// This will make EM class highly cohesive and loosely coupled
+	handleCollision();
 }
 
-void EntityManager::handleCollision(Player p){
+bool EntityManager::isColliding(CollisionShape body_1, CollisionShape body_2){
+	bool x_col = false;	// Collision along X axis
+	bool y_col = false;	// Collision along Y axis
+
+	// Get X collision
+	if(body_1.originPosition.x + (body_1.width / 2) > body_2.originPosition.x - (body_2.width / 2) ||
+		body_1.originPosition.x - (body_1.width / 2) < body_2.originPosition.x + (body_2.width / 2)){
+		
+		x_col = true;
+	}
+
+	// Get Y collision
+	if(body_1.originPosition.y + (body_1.height / 2) > body_2.originPosition.y - (body_2.height / 2) || 
+		body_1.originPosition.y - (body_1.height / 2) < body_2.originPosition.y + (body_2.height / 2)){
+		
+		y_col = true;
+	}
+
+	if(x_col && y_col){
+		return true;
+	}
+
+	return false;
+}
+
+void EntityManager::handleCollision(){
 	for(uint32_t i = 0; i < entities.size(); i++){
-
+		if(entities[i]->isDead()){
+			continue;
+		}
+		// PLAYER COLLISION
 		// Check collision range
-		if(entities[i]->getPosition().x - p.getPosition().x < 50 && 
-		entities[i]->getPosition().y - p.getPosition().y < 50){
+		if(entities[i]->getPosition().x - player.getPosition().x < 50 && 
+		entities[i]->getPosition().y - player.getPosition().y < 50){
 
-			//Check collision
+			// Check collision
 			CollisionShape entityBox = entities[i]->getCollisionShape();
-			CollisionShape playerBox = p.getCollisionShape();
-			p.hurt(entities[i]->getDamage());
-			entities[i]->kill();
-		}	
+			CollisionShape playerBox = player.getCollisionShape();
+
+			if(isColliding(entityBox, playerBox)){
+				player.hurt(entities[i]->getDamage());
+				entities[i]->kill();
+			}
+		}
+
+		// BULLET COLLISION
+		for(uint32_t j = 0; j < bullets.size(); j++){
+			if(bullets[j]->isDead()){
+				continue;
+			}
+
+			if(entities[i]->getPosition().x - bullets[j]->getPosition().x < 50 &&
+				entities[i]->getPosition().y - bullets[j]->getPosition().y < 50){
+				
+				// Check Collision
+				CollisionShape entityBox = entities[i]->getCollisionShape();
+				CollisionShape bulletBox = bullets[j]->getCollisionShape();
+
+				if(isColliding(entityBox, bulletBox)){
+					entities[i]->hurt(bullets[j]->getDamage());
+				}
+
+			}
+		}
 	}	
 }
 

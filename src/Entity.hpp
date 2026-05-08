@@ -26,6 +26,8 @@ class Entity{
 		virtual void update() = 0;
 		
 	protected:
+
+		int SPRITE_SCALE = 3;
 		void updateColShape();
 
 		Texture2D texture;

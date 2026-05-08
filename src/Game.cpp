@@ -145,11 +145,13 @@ void Game::update(){
 		
 		bullets[i].update();
 
-		if(bullets[i].killMe){
+
+		if(bullets[i].isDead()){
 			bullets[i] = bullets.back();
 			bullets.pop_back();
 			continue;
 		}
+		
 		i++;
 	}
 

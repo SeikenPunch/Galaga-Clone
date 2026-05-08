@@ -8,4 +8,5 @@ CMakeFiles/ray_engine.dir/src/Bullet.cpp.obj: \
  A:/msys64/ucrt64/include/vadefs.h A:/msys64/ucrt64/include/_mingw.h \
  A:/msys64/ucrt64/include/_mingw_mac.h \
  A:/msys64/ucrt64/include/_mingw_secapi.h \
- A:\GameDev\ray_engine\src\Utils.hpp
+ A:\GameDev\ray_engine\src\Utils.hpp A:\GameDev\ray_engine\src\Entity.hpp \
+ A:\GameDev\ray_engine\src\Collision.hpp

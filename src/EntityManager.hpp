@@ -13,7 +13,12 @@ class EntityManager{
 		void update();
 
 	private:
-		void handleCollision(Player p);
-		void handleCollision(Bullet b);
+		void handleCollision();
+
+		// Need to create draw function that draws all entities correctly
+		void draw();
+		bool isColliding(CollisionShape, CollisionShape);
 		std::vector<std::unique_ptr<Entity>> entities;
+		std::vector<std::unique_ptr<Entity>> bullets;
+		Player player;
 };
