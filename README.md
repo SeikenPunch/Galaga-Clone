@@ -5,7 +5,7 @@
 
 ## About this project:
 ### Motivation:
-I wanted to make a game where I could focus on the technical aspects first and creative aspects second. This is the purpose behind making an already existing game. I wanted a game that was simple that managed entities so Galaga became my mission.
+I wanted to make a game where I could focus on the technical aspects first and creative aspects second. This is the purpose behind making an already existing game. I wanted a game that was simple that managed entities so Galaga became my mission. I did include some of my own creativity with the sprites. All sprites in this project were drawn by me.
 
 ### Techniques
 For this project I orignally wanted to use an ECS (Entity Component System) to manage entities. This would have been a great challenge attempting to make a program that was data-oriented. Although this would have been a challenge I settled with a hierarchical design. The reason for this is the enemeis in the game. It made sense to have all the entities that would interact to inherit from some common class and handle the interactions between all the entities in some entity manager class. Using an ECS for enemies that would all have almost the same components made no sense.
