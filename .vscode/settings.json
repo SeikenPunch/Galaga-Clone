@@ -1,7 +1,0 @@
-{
-	"cmake.debugConfig": {
-		"cwd": "${workspaceFolder}"
-	},
-	"cmake.modifyLists.addNewSourceFiles": "no",
-	"cmake.modifyLists.removeDeletedSourceFiles": "no"
-}
