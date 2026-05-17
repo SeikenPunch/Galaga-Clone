@@ -2,7 +2,7 @@ CXX := g++
 
 TARGET := game.exe
 
-CXXFLAGS := -std=c++17 -Wall -Wextra -Iinclude
+CXXFLAGS := -std=c++20 -Wall -Wextra -Iinclude
 LDFLAGS := -Llib
 LDLIBS := -lraylib -lopengl32 -lgdi32 -lwinmm
 
@@ -17,5 +17,8 @@ $(TARGET): $(OBJ)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
-	rm -f $(OBJ) $(TARGET)
+	-del /Q src\*.o game.exe 2>NUL

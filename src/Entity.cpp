@@ -1,7 +1,6 @@
 #include "Entity.hpp"
 
 Texture2D Entity::getTexture(){
-	SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 	return texture;
 }
 
@@ -64,8 +63,8 @@ bool Entity::isDead(){
 
 void Entity::updateColShape(){
 
-	colShape.width = texture.width * SPRITE_SCALE;
+	colShape.originPosition.x = position.x;
+	colShape.originPosition.y = position.y;
+	colShape.width  = texture.width  * SPRITE_SCALE;
 	colShape.height = texture.height * SPRITE_SCALE;
-	colShape.originPosition.x = position.x + (texture.width / 2.f);
-	colShape.originPosition.y = position.y + (texture.height / 2.f);
 }

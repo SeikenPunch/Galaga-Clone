@@ -8,6 +8,7 @@
 class Player : public Entity{
 	public:
 		Player();
+		~Player() override = default;
 		void update();
 		void setBounds(float leftBound, float rightBound, float topBound, float bottomBound);
 		bool canShoot();

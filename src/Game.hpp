@@ -5,6 +5,7 @@
 #include <vector>
 #include "Player.hpp"
 #include "Bullet.hpp"
+#include "EntityManager.hpp"
 
 enum class GameState{
 	MAIN_MENU,
@@ -20,18 +21,10 @@ class Game {
 	private:
 		const int VirtualScreenHeight = 1080; //360
 		const int VirtualScreenWidth = 1920; //640
-
 		const int spriteScale = 3;
 
-		//Player bounds
-		float leftBound, rightBound, topBound, bottomBound = 0;
-
 		RenderTexture2D target;
-
 		void update();
 		void getInput();
-
-		std::vector<Bullet> bullets;
-		
-		Player *player;
+		EntityManager em;
 };

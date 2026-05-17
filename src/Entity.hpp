@@ -5,7 +5,7 @@
 
 class Entity{
 	public:
-		~Entity() = default;
+		virtual ~Entity() = default;
 		Texture2D getTexture();
 		Vector2 getPosition();
 		float getRotation();
@@ -31,7 +31,7 @@ class Entity{
 		void updateColShape();
 
 		Texture2D texture;
-		float rotation = 0;
+		float rotation = {0};
 		Vector2 movementVec = {0,0};
 		Vector2 position = {0,0};
 		float speed = 0;

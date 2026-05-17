@@ -9,22 +9,8 @@ void Game::start(){
 	SetWindowState(FLAG_WINDOW_RESIZABLE);
 	SetTargetFPS(0);
 
-
-	player = new Player();
-
-	leftBound = 25;
-	rightBound = VirtualScreenWidth - 25;
-	topBound = VirtualScreenHeight - 200;
-	bottomBound = VirtualScreenHeight - 25;
-
-	player->setPosition({VirtualScreenWidth/2.f, (bottomBound + topBound) / 2});
-	player->setBounds(leftBound, rightBound, topBound, bottomBound);
-
+	em.start(VirtualScreenWidth, VirtualScreenHeight);
 	target = LoadRenderTexture(VirtualScreenWidth, VirtualScreenHeight);
-	
-	SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);	
-	SetTextureFilter(player->getTexture(), TEXTURE_FILTER_POINT);
-
 }
 
 void Game::run(){
@@ -34,31 +20,10 @@ void Game::run(){
 		update();
 
 		// Draw to texture
-		
 		BeginTextureMode(target);
 		ClearBackground(BLACK);
 
-		// Draw Player
-		DrawTexturePro(
-			player->getTexture(), 
-			{0, 0, static_cast<float>(player->getTexture().width), static_cast<float>(player->getTexture().height)},
-			{player->getPosition().x, player->getPosition().y, static_cast<float>(player->getTexture().width) * spriteScale, static_cast<float>(player->getTexture().height) * spriteScale},
-			{(player->getTexture().width * spriteScale) / 2.f , (player->getTexture().height * spriteScale) /2.f}, 
-			player->getRotation(), 
-			WHITE
-		);
-
-		// Draw Bullets
-		for(auto& bullet : bullets){
-			DrawTexturePro(
-				bullet.getTexture(),
-				{0,0, static_cast<float>(bullet.getTexture().width), static_cast<float>(bullet.getTexture().height)},
-				{bullet.getPosition().x, bullet.getPosition().y, static_cast<float>(bullet.getTexture().width) * spriteScale, static_cast<float>(bullet.getTexture().height) * spriteScale},
-				{(bullet.getTexture().width * spriteScale) / 2.f, (bullet.getTexture().height * spriteScale) / 2.f},
-				bullet.getRotation(),
-				WHITE
-			);
-		}
+		em.draw();
 
 		EndTextureMode();		
 		
@@ -89,70 +54,24 @@ void Game::run(){
 		);
 
 		EndDrawing();
-
 	}
-
-	delete player;
 
 	CloseWindow();
 }
 
 void Game::getInput(){
-	// Movement
-	Vector2 newMovement = {0,0};
-	if(IsKeyDown(KEY_W)){
-		newMovement.y = -1;
-	}
-	if(IsKeyDown(KEY_A)){
-		newMovement.x = -1;
-	}
-	if(IsKeyDown(KEY_D)){
-		newMovement.x = 1;
-	}
-	if(IsKeyDown(KEY_S)){
-		newMovement.y = 1;
-	}
-
-	// Shoot
-	if(IsKeyDown(KEY_SPACE)){
-		if(player->canShoot()){
-			Bullet b = player->shoot();
-			bullets.push_back(b);
-		}
-	}
-
 	// Fullscreen
 	if(IsKeyPressed(KEY_F)){
 		ToggleBorderlessWindowed();
 	}
-
-	newMovement = normalize(newMovement);
-
-	player->move(newMovement);
 }
 
 void Game::update(){
 	getInput();
 
-	player->update();
+	em.update();
 
 	if(IsWindowResized()){
 		SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
 	}
-
-	// Update bullets;
-	for(std::size_t i = 0; i < bullets.size();){
-		
-		bullets[i].update();
-
-
-		if(bullets[i].isDead()){
-			bullets[i] = bullets.back();
-			bullets.pop_back();
-			continue;
-		}
-		
-		i++;
-	}
-
 }
