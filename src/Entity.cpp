@@ -24,6 +24,14 @@ int Entity::getDamage(){
 	return damage;
 }
 
+int Entity::getHealth(){
+	return health;
+}
+
+float Entity::getSpeed(){
+	return speed;
+}
+
 void Entity::setTexture(Texture2D texture){
 	this->texture = texture;
 }
@@ -42,6 +50,10 @@ void Entity::setMovementVec(Vector2 movementVec){
 
 void Entity::setSpeed(float speed){
 	this->speed = speed;
+}
+
+void Entity::setDamage(int damage){
+	this->damage = damage;
 }
 
 void Entity::move(Vector2 moveBy){

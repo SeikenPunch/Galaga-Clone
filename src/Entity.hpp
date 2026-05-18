@@ -12,12 +12,15 @@ class Entity{
 		Vector2 getMovmentVec();
 		CollisionShape getCollisionShape();
 		int getDamage();
+		int getHealth();
+		float getSpeed();
 
 		void setTexture(Texture2D texture);
 		void setPosition(Vector2 newPos);
 		void setRotation(float newRot);
 		void setMovementVec(Vector2 movementVec);
 		void setSpeed(float speed);
+		void setDamage(int damage);
 		void move(Vector2);
 		void hurt(int);		
 		void kill();

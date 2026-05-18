@@ -1,16 +1,36 @@
 #include "Game.hpp"
 #include "Utils.hpp"
+#include <iostream> //debug
 
 void Game::start(){
-	// Escape wont close the program with this
-	SetExitKey(KEY_NULL);
-
 	InitWindow(VirtualScreenWidth, VirtualScreenHeight, "Agalag");
 	SetWindowState(FLAG_WINDOW_RESIZABLE);
 	SetTargetFPS(0);
 
+	// Escape wont close the program with this
+	SetExitKey(KEY_Q);
+
 	em.start(VirtualScreenWidth, VirtualScreenHeight);
 	target = LoadRenderTexture(VirtualScreenWidth, VirtualScreenHeight);
+
+
+	// ALIEN TESTING
+	std::unique_ptr<Alien> a = std::make_unique<Alien>();
+	int width = a->getTexture().width * spriteScale;
+	int height = a->getTexture().height * spriteScale;
+	std::cout << width << std::endl;
+	int amountX = VirtualScreenWidth / width;
+	int amountY = (VirtualScreenHeight - 200) / height;
+
+	std::cout << amountX << "  " << amountY << std::endl;
+	
+	for(int i = 0; i < amountX; i++){
+		for(int j = 0; j < amountY; j++){
+			std::unique_ptr<Alien> a = std::make_unique<Alien>();
+			a->setPosition({(float)i * width + width/2, (float)j * height + height / 2});
+			em.addEntity(std::move(a));
+		}
+	}
 }
 
 void Game::run(){

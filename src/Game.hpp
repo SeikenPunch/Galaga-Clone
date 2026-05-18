@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 #include "EntityManager.hpp"
+#include "Alien.hpp"
 
 enum class GameState{
 	MAIN_MENU,

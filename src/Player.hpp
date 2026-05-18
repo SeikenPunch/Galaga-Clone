@@ -16,6 +16,6 @@ class Player : public Entity{
 
 	private:
 		Clock clock;
-		float shootTime = 500;
+		float shootTime = 200;
 		float leftBound, rightBound, topBound, bottomBound = 0;
 };

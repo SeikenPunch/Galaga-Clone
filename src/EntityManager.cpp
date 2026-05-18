@@ -1,8 +1,12 @@
 #include <cstdint>
+#include <iostream> // Debug
 #include "EntityManager.hpp"
 #include "Collision.hpp"
 
 void EntityManager::start(int VirtualScreenWidth, int VirtualScreenHeight){
+
+	grid.resize(50);
+	setupGrid();
 	float leftBound = 25;
 	float rightBound = VirtualScreenWidth - 25;
 	float topBound = VirtualScreenHeight - 200;
@@ -16,11 +20,18 @@ void EntityManager::start(int VirtualScreenWidth, int VirtualScreenHeight){
 	SetTextureFilter(player->getTexture(), TEXTURE_FILTER_POINT);
 }
 
+void EntityManager::setupGrid(){
+	for(uint32_t i = 0; i < grid.size(); i++){
+		
+	}
+}
+
 void EntityManager::addEntity(std::unique_ptr<Entity> entity){
 	entities.push_back(std::move(entity));
 }
 
 void EntityManager::addBullet(std::unique_ptr<Entity> b){
+	b->getSpeed();
 	bullets.push_back(std::move(b));
 }
 
@@ -29,7 +40,14 @@ void EntityManager::update(){
 	handleCollision();
 	player->update();
 	
-	printf("Amount of Bullets: %d\n", bullets.size());
+	for(uint32_t i = 0; i < entities.size();){
+		entities[i]->update();
+
+		if(entities[i]->isDead()){
+			entities.erase(entities.begin() + i);
+		}
+		i++;
+	}
 
 	for(uint32_t i = 0; i < bullets.size();){
 		bullets[i]->update();
@@ -37,11 +55,8 @@ void EntityManager::update(){
 		if(bullets[i]->getPosition().y < 10){
 			bullets[i]->kill();
 		}
-
 		if(bullets[i]->isDead()){
-			bullets[i] = std::move(bullets.back());
-			bullets.pop_back();
-			continue;
+			bullets.erase(bullets.begin() + i);
 		}
 		i++;
 	}
@@ -185,10 +200,11 @@ void EntityManager::handleMovement(){
 	if(IsKeyDown(KEY_SPACE)){
 		if(player->canShoot()){
 			addBullet(std::make_unique<Bullet>(player->shoot()));
+			bullets[bullets.size()-1]->getSpeed();
 		}
 	}
 
-	//newMovement = normalize(newMovement);
+	//newMovement = normalize(newMovement);  // Dont want normalized movement. Feels weird in bounding box
 	player->move(newMovement);
 }
 
@@ -227,6 +243,8 @@ void EntityManager::handleCollision(){
 
 				if(isColliding(entityBox, bulletBox)){
 					entities[i]->hurt(bullets[j]->getDamage());
+					bullets[j]->kill();
+					std::cout << "Collision Detected\n";
 				}
 
 			}

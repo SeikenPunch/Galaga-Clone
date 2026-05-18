@@ -10,7 +10,6 @@ class Bullet : public Entity{
 		void update();
 		
 	private:
-		float speed = 300;
 		Vector2 movementVec = {0,-1};
 		void moveBullet();
 };

@@ -1,10 +1,12 @@
 #include "Player.hpp"
+#include <iostream> //debug
 
 Player::Player(){ // fix placement using virtual screen
 	texture = LoadTexture("assets/Asteroids.png");
 	SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 	position = {0, 0};
 	speed = 450;
+	damage = 1;
 
 	clock.restart();
 }
@@ -34,7 +36,11 @@ void Player::update(){
 
 Bullet Player::shoot(){
 	Bullet b;
-	b.setPosition({position.x, position.y - 60});
+	b.setDamage(damage);
+	b.setSpeed(900);
+	b.setPosition({position.x, position.y - 50});
+	std::cout << b.getSpeed() << std::endl;
+	std::cout << "Called bullet" << std::endl;
 	return b;
 }
 
