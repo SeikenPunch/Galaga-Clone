@@ -6,7 +6,8 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 #include "EntityManager.hpp"
-#include "Alien.hpp"
+#include "AlienInfo.hpp"
+#include "Level.hpp"
 
 enum class GameState{
 	MAIN_MENU,
@@ -24,8 +25,20 @@ class Game {
 		const int VirtualScreenWidth = 1920; //640
 		const int spriteScale = 3;
 
+      //----------------- FOR TESTING LEVELS -----------------//
+      void setPositions();
+      void drawLines();
+         
+      //----------------- FOR TESTING LEVELS -----------------//
+
 		RenderTexture2D target;
 		void update();
 		void getInput();
+      void getLevel(int level);
+      GameState currentState = GameState::IN_GAME;
 		EntityManager em;
+      Level levelManager;
+      int level = 0; 
+      bool inLevel = true;
+      std::vector<GridInfo> alienPlacement;
 };

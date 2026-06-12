@@ -40,6 +40,15 @@ void Entity::setPosition(Vector2 position){
 	this->position = position;
 }
 
+void Entity::setPosition(float x, float y){
+   Vector2 newVec = {x, y};
+   this->position = newVec;
+}
+
+void Entity::setTargetPosition(Vector2 target){
+   targetPosition = target;
+}
+
 void Entity::setRotation(float rotation){
 	this->rotation = rotation;
 }

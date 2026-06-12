@@ -4,9 +4,6 @@
 #include "Collision.hpp"
 
 void EntityManager::start(int VirtualScreenWidth, int VirtualScreenHeight){
-
-	grid.resize(50);
-	setupGrid();
 	float leftBound = 25;
 	float rightBound = VirtualScreenWidth - 25;
 	float topBound = VirtualScreenHeight - 200;
@@ -18,12 +15,6 @@ void EntityManager::start(int VirtualScreenWidth, int VirtualScreenHeight){
 	player->setBounds(leftBound, rightBound, topBound, bottomBound);
 
 	SetTextureFilter(player->getTexture(), TEXTURE_FILTER_POINT);
-}
-
-void EntityManager::setupGrid(){
-	for(uint32_t i = 0; i < grid.size(); i++){
-		
-	}
 }
 
 void EntityManager::addEntity(std::unique_ptr<Entity> entity){
@@ -40,16 +31,15 @@ void EntityManager::update(){
 	handleCollision();
 	player->update();
 	
-	for(uint32_t i = 0; i < entities.size();){
+	for(uint32_t i = 0; i < entities.size(); i++){
 		entities[i]->update();
 
 		if(entities[i]->isDead()){
 			entities.erase(entities.begin() + i);
 		}
-		i++;
 	}
 
-	for(uint32_t i = 0; i < bullets.size();){
+	for(uint32_t i = 0; i < bullets.size(); i++){
 		bullets[i]->update();
 
 		if(bullets[i]->getPosition().y < 10){
@@ -58,9 +48,7 @@ void EntityManager::update(){
 		if(bullets[i]->isDead()){
 			bullets.erase(bullets.begin() + i);
 		}
-		i++;
 	}
-
 }
 
 bool EntityManager::isColliding(CollisionShape body_1, CollisionShape body_2){
@@ -250,4 +238,32 @@ void EntityManager::handleCollision(){
 			}
 		}
 	}	
+}
+
+void EntityManager::setPlacement(std::vector<GridInfo> newPlacement){
+   alienPlacement = newPlacement;
+   entities.clear();
+   entities.resize(alienPlacement.size());
+   Vector2 position;
+   
+   for(auto placement : alienPlacement){
+      position = placement.position;
+      std::unique_ptr<NormalAlien> normalAlien = std::make_unique<NormalAlien>();
+      std::unique_ptr<ShooterAlien> shooterAlien = std::make_unique<ShooterAlien>();
+      std::unique_ptr<CaptureAlien> captureAlien = std::make_unique<CaptureAlien>();
+      switch(placement.alienType){
+         case ALIEN_TYPE::NORMAL:
+            normalAlien->setPosition(position);
+            entities.push_back(std::move(normalAlien));
+         break;
+         case ALIEN_TYPE::SHOOTER:
+            shooterAlien->setPosition(position);
+            entities.push_back(std::move(shooterAlien));
+         break;
+         case ALIEN_TYPE::CAPTURE:
+            captureAlien->setPosition(position);
+            entities.push_back(std::move(captureAlien));
+         break;
+      }
+   }
 }

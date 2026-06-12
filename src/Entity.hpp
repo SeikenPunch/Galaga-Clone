@@ -17,6 +17,8 @@ class Entity{
 
 		void setTexture(Texture2D texture);
 		void setPosition(Vector2 newPos);
+      void setPosition(float x, float y);
+      void setTargetPosition(Vector2 target);
 		void setRotation(float newRot);
 		void setMovementVec(Vector2 movementVec);
 		void setSpeed(float speed);
@@ -37,6 +39,7 @@ class Entity{
 		float rotation = {0};
 		Vector2 movementVec = {0,0};
 		Vector2 position = {0,0};
+      Vector2 targetPosition = {0,0};
 		float speed = 0;
 		int damage = 0;
 		int health = 0;

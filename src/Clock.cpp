@@ -12,7 +12,7 @@ float Clock::getElapsedSeconds(){
 }
 
 float Clock::getElapsedMiliseconds(){
-	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+   std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 	std::chrono::duration<float, std::milli> elapsed = now - startTime;
 
 	return elapsed.count();
