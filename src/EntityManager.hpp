@@ -28,4 +28,6 @@ class EntityManager{
 		Texture2D bulletTexture;
 		std::unique_ptr<Player> player;
       std::vector<GridInfo> alienPlacement;
+
+      // Make a function called createGroup that takes a vector of entities and rows and columns of group and top left position of group. returns id?
 };

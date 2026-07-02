@@ -9,6 +9,10 @@
 #include "AlienInfo.hpp"
 #include "Level.hpp"
 
+// For button testing
+#include "Button.hpp"
+// For button testing
+
 enum class GameState{
 	MAIN_MENU,
 	SETTINGS,
@@ -31,11 +35,17 @@ class Game {
          
       //----------------- FOR TESTING LEVELS -----------------//
 
+
+      
+      //----------------- FOR TESTING BUTTONS -----------------//
+      void setupButtons();
+      Button testButton;
+      //----------------- FOR TESTING BUTTONS -----------------//
 		RenderTexture2D target;
 		void update();
 		void getInput();
       void getLevel(int level);
-      GameState currentState = GameState::IN_GAME;
+      GameState currentState = GameState::MAIN_MENU;
 		EntityManager em;
       Level levelManager;
       int level = 0; 

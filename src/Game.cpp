@@ -10,7 +10,8 @@ void Game::start(){
 	// Escape wont close the program with this
 	SetExitKey(KEY_Q);
 
-	em.start(VirtualScreenWidth, VirtualScreenHeight);
+	em.start(VirtualScreenWidth, VirtualScreenHeight); // This starts level
+   currentState = GameState::MAIN_MENU;
 	target = LoadRenderTexture(VirtualScreenWidth, VirtualScreenHeight);
 
    // Menu screen and such
@@ -19,6 +20,9 @@ void Game::start(){
 
    // hard coding first level for testing.
    setPositions();
+
+   // Testing button
+   setupButtons();
 }
 
 void Game::run(){
@@ -31,43 +35,46 @@ void Game::run(){
 		BeginTextureMode(target);
 		ClearBackground(BLACK);
 
-      //if(currentState == GameState::MAIN_MENU){;}
+      if(currentState == GameState::MAIN_MENU){
+         drawLines();
+         
+         testButton.draw();
+      }
    
       if(currentState == GameState::IN_GAME){      
          em.draw();
-         
          drawLines();
-
-         EndTextureMode();		
-         
-         // Calculate screen shit
-         float scaleX = static_cast<float>(GetScreenWidth()) / static_cast<float>(VirtualScreenWidth);
-         float scaleY = static_cast<float>(GetScreenHeight()) / static_cast<float>(VirtualScreenHeight);
-
-         float scale = std::min(scaleX, scaleY);
-
-         float scaledWidth = VirtualScreenWidth * scale;
-         float scaledHeight = VirtualScreenHeight * scale;
-         
-         float offsetX = (static_cast<float>(GetScreenWidth()) - scaledWidth) / 2.f;
-         float offsetY = (static_cast<float>(GetScreenHeight()) - scaledHeight) / 2.f;
-
-         // DRAW
-         BeginDrawing();
-
-         SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
-         ClearBackground(BLACK);
-         DrawTexturePro(
-            target.texture, 
-            {0,0, static_cast<float>(target.texture.width), -static_cast<float>(target.texture.height)},
-            {offsetX, offsetY, scaledWidth, scaledHeight}, 
-            {0,0}, 
-            0.f, 
-            WHITE
-         );
-
-         EndDrawing();
       }
+
+      EndTextureMode();		
+      
+      // Calculate screen shit
+      float scaleX = static_cast<float>(GetScreenWidth()) / static_cast<float>(VirtualScreenWidth);
+      float scaleY = static_cast<float>(GetScreenHeight()) / static_cast<float>(VirtualScreenHeight);
+
+      float scale = std::min(scaleX, scaleY);
+
+      float scaledWidth = VirtualScreenWidth * scale;
+      float scaledHeight = VirtualScreenHeight * scale;
+      
+      float offsetX = (static_cast<float>(GetScreenWidth()) - scaledWidth) / 2.f;
+      float offsetY = (static_cast<float>(GetScreenHeight()) - scaledHeight) / 2.f;
+
+      // DRAW
+      BeginDrawing();
+
+      SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
+      ClearBackground(BLACK);
+      DrawTexturePro(
+         target.texture, 
+         {0,0, static_cast<float>(target.texture.width), -static_cast<float>(target.texture.height)},
+         {offsetX, offsetY, scaledWidth, scaledHeight}, 
+         {0,0}, 
+         0.f, 
+         WHITE
+      );
+
+      EndDrawing();
 	}
 
 	CloseWindow();
@@ -81,13 +88,16 @@ void Game::getInput(){
 }
 
 void Game::update(){
-	getInput();
-
-	em.update();
-
-	if(IsWindowResized()){
-		SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
-	}
+   if(currentState == GameState::MAIN_MENU){
+      testButton.update();
+   }
+   if(currentState == GameState::IN_GAME){
+      getInput();
+      em.update();
+      if(IsWindowResized()){
+         SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
+      }
+   }
 }
 
 void Game::getLevel(int level){
@@ -108,6 +118,22 @@ void Game::drawLines(){
    for(int i = 0; i <= rows; i++){
       DrawLine(0, i*cellSize, VirtualScreenWidth, i*cellSize, GRAY);
    }
+}
+
+void Game::setupButtons(){
+   testButton.start();
+   testButton.setPosition(VirtualScreenWidth / 2.f, VirtualScreenHeight/ 2.f);
+   testButton.setText("PLAY");
+   testButton.setFontSize(30);
+   testButton.setTextSpacing(5);
+      // void setPosition(Vector2 newPosition);
+      // void setPosition(float x, float y);
+      // void setText(std::string text);
+      // void setColor(Color color);
+      // void setRotation(float rot);
+      // void setFontSize(float size);
+      // void setTextSpacing(float spacing);
+      // void setTexture(std::string path);
 }
 
 void Game::setPositions(){

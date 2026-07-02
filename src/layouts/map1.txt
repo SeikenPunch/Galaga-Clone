@@ -1,0 +1,1 @@
+x,y,rows,cols,type
